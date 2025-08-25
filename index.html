@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XDOC: Choose Your Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        
+        .container {
+            width: 80%;
+            margin: 40px auto;
+        }
+        
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            color: #fff;
+        }
+        
+        .web-button {
+            background-color: #4CAF50;
+        }
+        
+        .app-button {
+            background-color: #03A9F4;
+        }
+        
+        .button:hover {
+            opacity: 0.8;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="platform-header"></h2>
+        <a href="#" id="web-button" class="button web-button">Continue on Web</a>
+        
+        <a href="https://www.microsoft.com/en-us/store/b/windows" id="windows-app-button" target="_blank" class="button app-button">Windows App</a>
+        <a href="https://www.apple.com/macos/app-store/" id="macos-app-button" target="_blank" class="button app-button">macOS App</a>
+        <a href="https://play.google.com/store/apps" id="android-app-button" target="_blank" class="button app-button">Android App</a>
+        <a href="https://www.apple.com/app-store/" id="ios-app-button" target="_blank" class="button app-button">iOS App</a>
+    </div>
+
+    <script>
+        // Function to get the user's platform
+        function getPlatform() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            if (/windows phone/i.test(userAgent)) {
+                return "Windows Phone";
+            }
+            if (/windows/i.test(userAgent)) {
+                return "Windows";
+            }
+            if (/macintosh|mac os x/i.test(userAgent)) {
+                return "macOS";
+            }
+            if (/android/i.test(userAgent)) {
+                return "Android";
+            }
+            if (/iphone|ipad|ipod/i.test(userAgent)) {
+                return "iOS";
+            }
+
+            return "Unknown";
+        }
+
+        // Get the user's platform
+        const platform = getPlatform();
+
+        // Show relevant links based on the platform
+        const platformHeader = document.getElementById("platform-header");
+        const webButton = document.getElementById("web-button");
+        const windowsAppButton = document.getElementById("windows-app-button");
+        const macosAppButton = document.getElementById("macos-app-button");
+        const androidAppButton = document.getElementById("android-app-button");
+        const iosAppButton = document.getElementById("ios-app-button");
+
+        switch (platform) {
+            case "Windows":
+                platformHeader.textContent = "You're using Windows!";
+                webButton.classList.remove("hidden");
+                windowsAppButton.classList.remove("hidden");
+                macosAppButton.classList.add("hidden");
+                androidAppButton.classList.add("hidden");
+                iosAppButton.classList.add("hidden");
+                break;
+            case "macOS":
+                platformHeader.textContent = "You're using macOS!";
+                webButton.classList.remove("hidden");
+                windowsAppButton.classList.add("hidden");
+                macosAppButton.classList.remove("hidden");
+                androidAppButton.classList.add("hidden");
+                iosAppButton.classList.add("hidden");
+                break;
+            case "Android":
+                platformHeader.textContent = "You're using Android!";
+                webButton.classList.remove("hidden");
+                windowsAppButton.classList.add("hidden");
+                macosAppButton.classList.add("hidden");
+                androidAppButton.classList.remove("hidden");
+                iosAppButton.classList.add("hidden");
+                break;
+            case "iOS":
+                platformHeader.textContent = "You're using iOS!";
+                webButton.classList.remove("hidden");
+                windowsAppButton.classList.add("hidden");
+                macosAppButton.classList.add("hidden");
+                androidAppButton.classList.add("hidden");
+                iosAppButton.classList.remove("hidden");
+                break;
+            default:
+                platformHeader.textContent = "You're using an unknown platform!";
+                webButton.classList.remove("hidden");
+                windowsAppButton.classList.remove("hidden");
+                macosAppButton.classList.remove("hidden");
+                androidAppButton.classList.remove("hidden");
+                iosAppButton.classList.remove("hidden");
+                break;
+        }
+    </script>
+</body>
+</html>
