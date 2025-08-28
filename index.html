@@ -56,18 +56,32 @@
             function getDynamicPath() {
                 var params = new URLSearchParams(window.location.search);
                 var path = params.get('path');
-                var entity = params.get('entity');
-                var channel = params.get('channel');
-                var id = params.get('id');
-                if (path && entity && channel && id) {
-                    return `${path}/${entity}/${channel}/${id}`;
-                } else {
-                    var fallbackPath = window.location.pathname;
-                    if (fallbackPath.startsWith('/')) {
-                        fallbackPath = fallbackPath.substring(1);
+                var entity, channel, id;
+                if (path && path.includes('?')) {
+                    // Handle nested query in path
+                    var [basePath, queryString] = path.split('?');
+                    var nestedParams = new URLSearchParams(queryString);
+                    entity = nestedParams.get('entity');
+                    channel = nestedParams.get('channel');
+                    id = nestedParams.get('id');
+                    if (basePath && entity && channel && id) {
+                        return `${basePath}/${entity}/${channel}/${id}`;
                     }
-                    return fallbackPath;
+                } else {
+                    // Handle top-level query params
+                    entity = params.get('entity');
+                    channel = params.get('channel');
+                    id = params.get('id');
+                    if (path && entity && channel && id) {
+                        return `${path}/${entity}/${channel}/${id}`;
+                    }
                 }
+                // fallback to pathname
+                var fallbackPath = window.location.pathname;
+                if (fallbackPath.startsWith('/')) {
+                    fallbackPath = fallbackPath.substring(1);
+                }
+                return fallbackPath;
             }
 
             document.getElementById('web-button').onclick = function(e) {
