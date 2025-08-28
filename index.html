@@ -73,12 +73,14 @@
             document.getElementById('web-button').onclick = function(e) {
                 e.preventDefault();
                 var dynamicPath = getDynamicPath();
+                console.log('Redirecting to:', 'https://web.xdoc.app/' + dynamicPath);
                 window.location.href = 'https://web.xdoc.app/' + dynamicPath;
             };
 
             document.getElementById('windows-app-button').onclick = function(e) {
                 e.preventDefault();
                 var dynamicPath = getDynamicPath();
+                console.log('Redirecting to:', 'xdoc://' + dynamicPath);
                 window.location.href = 'xdoc://' + dynamicPath;
             };
         </script>
