@@ -52,6 +52,28 @@
         <a href="https://www.apple.com/macos/app-store/" id="macos-app-button" target="_blank" class="button app-button">macOS App</a>
         <a href="https://play.google.com/store/apps" id="android-app-button" target="_blank" class="button app-button">Android App</a>
         <a href="https://www.apple.com/app-store/" id="ios-app-button" target="_blank" class="button app-button">iOS App</a>
+        <script>
+            document.getElementById('web-button').onclick = function(e) {
+                e.preventDefault();
+                // Parse query string
+                var params = new URLSearchParams(window.location.search);
+                var path = params.get('path'); // e.g., 'c'
+                var entity = params.get('entity'); // e.g., 'info@advcomm.net'
+                var channel = params.get('channel'); // e.g., 'Web Job'
+                var id = params.get('id'); // e.g., '6'
+                if (path && entity && channel && id) {
+                    var redirectUrl = `https://web.xdoc.app/${path}/${entity}/${channel}/${id}`;
+                    window.location.href = redirectUrl;
+                } else {
+                    // fallback to previous logic if query params not present
+                    var fallbackPath = window.location.pathname;
+                    if (fallbackPath.startsWith('/')) {
+                        fallbackPath = fallbackPath.substring(1);
+                    }
+                    window.location.href = 'https://web.xdoc.app/' + fallbackPath;
+                }
+            };
+        </script>
     </div>
 
     <script>
