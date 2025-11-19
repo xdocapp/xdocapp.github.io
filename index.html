@@ -34,6 +34,10 @@
             background-color: #03A9F4;
         }
         
+        .download-button {
+            background-color: #FF9800;
+        }
+        
         .button:hover {
             opacity: 0.8;
         }
@@ -49,6 +53,7 @@
         <a href="#" id="web-button" class="button web-button">Continue on Web</a>
         
         <a href="#" id="windows-app-button" class="button app-button">Windows App</a>
+        <a href="https://downloads.xdoc.app/windows/xdoc-latest.msix" id="windows-download-button" class="button download-button hidden">Download Windows App</a>
         <a href="https://www.apple.com/macos/app-store/" id="macos-app-button" target="_blank" class="button app-button">macOS App</a>
         <a href="https://play.google.com/store/apps" id="android-app-button" target="_blank" class="button app-button">Android App</a>
         <a href="https://www.apple.com/app-store/" id="ios-app-button" target="_blank" class="button app-button">iOS App</a>
@@ -94,8 +99,22 @@
             document.getElementById('windows-app-button').onclick = function(e) {
                 e.preventDefault();
                 var dynamicPath = getDynamicPath();
-                console.log('Redirecting to:', 'xdoc://' + dynamicPath);
-                window.location.href = 'xdoc://' + dynamicPath;
+                var deepLink = 'xdoc://' + dynamicPath;
+                console.log('Attempting to open:', deepLink);
+                
+                // Try to open the app
+                window.location.href = deepLink;
+                
+                // Set a timeout to show download link if app doesn't open
+                var timeout = setTimeout(function() {
+                    document.getElementById('windows-app-button').classList.add('hidden');
+                    document.getElementById('windows-download-button').classList.remove('hidden');
+                }, 2000);
+                
+                // Clear timeout if user leaves the page (app opened successfully)
+                window.addEventListener('blur', function() {
+                    clearTimeout(timeout);
+                });
             };
         </script>
     </div>
@@ -131,6 +150,7 @@
         const platformHeader = document.getElementById("platform-header");
         const webButton = document.getElementById("web-button");
         const windowsAppButton = document.getElementById("windows-app-button");
+        const windowsDownloadButton = document.getElementById("windows-download-button");
         const macosAppButton = document.getElementById("macos-app-button");
         const androidAppButton = document.getElementById("android-app-button");
         const iosAppButton = document.getElementById("ios-app-button");
